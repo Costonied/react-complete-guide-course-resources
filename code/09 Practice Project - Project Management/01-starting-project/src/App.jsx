@@ -1,9 +1,15 @@
+import MenuProjects from "./components/MenuProjects.jsx"
+import ProjectNoSelected from "./components/ProjectNoSelected.jsx"
+
 function App() {
-  return (
-    <>
-      <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1>
-    </>
-  );
+    return (
+        <div className="flex h-screen">
+            <MenuProjects/>
+            <div className="w-4/5 p-4 mt-10">
+                <ProjectNoSelected />
+            </div>
+        </div>
+    );
 }
 
 export default App;
