@@ -18,7 +18,7 @@ function App() {
     }
 
     function handleGoHomeClicked() {
-        setSelectedProjectId(null);
+        setSelectedProjectId(undefined);
         setIsProjectCreating(false);
     }
 
@@ -46,6 +46,54 @@ function App() {
         (project) => project.id === selectedProjectId
     );
 
+    const selectedProjectTasks = tasks.filter(
+        (task) => {
+            console.log("Filter task id = " + task.id);
+            console.log("Filter task text = " + task.text);
+            console.log("Filter task project id = " + task.projectId);
+            console.log("Filter task  by selectedProjectId = " + selectedProjectId);
+            return task.projectId === selectedProjectId;
+        }
+    );
+
+    function handleAddTask(text) {
+        setTasks((prevState) => {
+            const taskId = Math.random();
+            const newTask = {
+                id: taskId,
+                text: text,
+                projectId: selectedProjectId,
+            };
+            return [...prevState, newTask];
+        });
+    }
+
+    function handleDeleteTask(taskId) {
+        setTasks((prevState) => {
+            return prevState.filter(
+                task => task.id !== taskId
+            );
+        });
+    }
+
+    function handleDeleteProject(projectId) {
+        console.log("Deleting project id: " + projectId);
+        setTasks((prevState) => {
+            return prevState.filter(
+                task => task.projectId !== projectId
+            );
+        });
+        setProjects((prevState) => {
+            return prevState.filter(
+                project => {
+                    console.log("Project id: " + project.id)
+                    return project.id !== projectId;
+                }
+            );
+        });
+        setSelectedProjectId(undefined);
+    }
+
     return (
         <div className="flex h-screen">
             <MenuProjects
@@ -59,7 +107,11 @@ function App() {
                 {isProjectCreating &&
                     <ProjectCreateForm onAddProject={handleAddProject} onCancel={handleCancelAddProject}/>}
                 {selectedProjectId && <SelectedProject
-                    project={selectedProject} tasks={[]}/>}
+                    project={selectedProject}
+                    onAddTask={handleAddTask}
+                    onDeleteTask={handleDeleteTask}
+                    onDelete={handleDeleteProject}
+                    tasks={selectedProjectTasks}/>}
             </div>
         </div>
     );

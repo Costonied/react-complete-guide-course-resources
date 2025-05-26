@@ -9,6 +9,9 @@ export default function NewTask({onAdd}) {
     }
 
     function handleClick() {
+
+        console.log('Handle Add task: ' + enteredTask)
+
         if (enteredTask.trim() === '') {
             return;
         }
